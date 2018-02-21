@@ -154,9 +154,65 @@
 
       function moveFocusFunction(i, j) {
         return (e) => {
+            if (e.keyCode === 37){
+                if (j > 0) {
+                    recentButton = getNextButton(i, j - 1);
+                    if (!recentButton){
+                        let now = dates[dates.length-1].length-1;
+                        while (!getNextButton(dates.length-1,now)) now--;
+                        recentButton = getNextButton(dates.length-1,now);
+                    }
+                }
+                else {
+                    let now = dates[i-1].length-1;
+                    while (!getNextButton(i-1,now)) now--;
+                    recentButton = getNextButton(i-1,now);
+                }
+            }//left;
+            if (e.keyCode === 38){
+                if (i > 0 && getNextButton(i-1,j)) {
+                    recentButton = getNextButton(i - 1, j);
+                }
+                else {
+                    let now = dates.length-1;
+                    while (!getNextButton(now,j)){
+                        now--;
+                    }
+                    recentButton = getNextButton(now, j);
+                }
+            }//up
+            if (e.keyCode === 39){
+                if (j < dates[i].length-1) {
+                    recentButton = getNextButton(i, j + 1);
+                    if (!recentButton){
+                        let now = 0;
+                        while (!getNextButton(0,now)) now++;
+                        recentButton = getNextButton(0,now);
+                    }
+                }
+                else {
+                    recentButton = getNextButton(i+1,0);
+                }
+            }//right
+            if (e.keyCode === 40 ){
+                if (i < dates.length -1 && getNextButton(i+1,j)) {
+                    recentButton = getNextButton(i + 1, j);
+                }
+                else {
+                    let now = 0;
+                    while (!getNextButton(now,j)){
+                        now++;
+                    }
+                    recentButton = getNextButton(now, j);
+                }
+            }//down
+            recentButton.focus();
           // TODO: e.keyCode 및 위에 정의한 dates 2차원 배열을 이용해 방향키로 focus를 이동하는
           // 로직을 구현하세요. 이 주석 부분 외에 다른 부분은 고치실 필요가 없을 겁니다.
         };
+      }
+      function getNextButton(i,j){
+          return dates[i][j].querySelector('.date');
       }
     </script>
   </body>
